@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hash view</title>
+    <script src="/static/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#img").change(function () {
+                var img = document.getElementById("img").files[0];
+                var fm = new FormData();
+                fm.append('imgName', img);
+                $.ajax(
+                    {
+                        url: 'http://localhost:9999/upload',
+                        type: 'POST',
+                        data: fm,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (result) {
+                            var sourceImg = document.getElementById("sourceImg");
+                            sourceImg.src = "/static/upload/" + img.name;
+                            sourceImg.style.display = "block";
+                            $("#showImg_list").children().remove();
+
+                        }
+                    }
+                );
+                var img = document.getElementById("img").files[0];
+
+            });
+
+            $('#btn').click(function () {
+                var img = document.getElementById("img").files[0];
+                //document.getElementById("sourceImg").src ="/static/graduation_photos/" + img.name;
+
+                var fm = new FormData();
+                fm.append('imgName', img);
+                $.ajax(
+                    {
+                        url: 'http://localhost:9999/',
+                        type: 'POST',
+                        data: fm,
+                        contentType: false, //禁止设置请求类型
+                        processData: false, //禁止jquery对DAta数据的处理,默认会处理
+                        //禁止的原因是,FormData已经帮我们做了处理
+                        dataType: "json",
+                        success: function (result) {
+                            //测试是否成功
+                            //但需要你后端有返回值
+//                            alert(result)
+//                            alert(result.showImg);
+//                            $("#showImg").attr("src", result.img);
+                            for(var i=0 ;i<result.imgNames.length;i++){
+
+                                $("#showImg_list").append(" <img id=\"showImg\" src=\""+result.imgNames[i]+"\" height=\"200\" width=\"200\"><br/>")
+                            }
+
+                        }
+                    }
+                );
+            });
+        });
+
+    </script>
+</head>
+<body>
+<form id="form" action="http://localhost:9999/" method="post" enctype="multipart/form-data">
+
+    <input name="imgName" id="img" type="file" /> <input type="button" id="btn" value="搜索"/>
+    <br>
+    <img id="sourceImg" src="" height="200" width="200" style="display: none">
+    <br>
+    <div id="showImg_list">
+
+    </div>
+
+</form>
+</body>
+</html>
