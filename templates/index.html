@@ -4,16 +4,47 @@
     <meta charset="UTF-8">
     <title>主页样板</title>
     <link rel="stylesheet" type="text/css" href="../static/index.css">
+    <script src="../static/echarts.min.js"></script>
+    <!-----------
+    <script src="echarts-wordcloud.min.js"></script>
+    ------->
 </head>
 <body>
+
 <div class="left">
     <div id="l1"></div>
     <div id="l2"></div>
 </div>
-<div id="center"></div>
+<div id="center">
+
+</div>
 <div class="right">
     <div id="r1"></div>
     <div id="r2"></div>
 </div>
+<script type="text/javascript">
+
+    var chartDom = document.getElementById('center');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                data: [150, 230, 224, 218, 135, 147, 260],
+                type: 'line'
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
 </body>
 </html>
