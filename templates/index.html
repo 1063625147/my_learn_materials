@@ -5,6 +5,7 @@
     <title>主页样板</title>
     <link rel="stylesheet" type="text/css" href="../static/index.css">
     <script src="../static/echarts.min.js"></script>
+    <script src="../static/jquery-3.2.1.min.js"></script>
     <!-----------
     <script src="echarts-wordcloud.min.js"></script>
     ------->
@@ -12,7 +13,9 @@
 <body>
 
 <div class="left">
-    <div id="l1"></div>
+    <div id="l1">
+        显示时间测试
+    </div>
     <div id="l2"></div>
 </div>
 <div id="center">
@@ -24,9 +27,35 @@
 </div>
 <script type="text/javascript">
 
+
+    function test() {
+        $.ajax({
+            url: "/test",
+            success:function (data) {
+                $("#l1").html(data)
+            }
+        })
+    }
+
     var chartDom = document.getElementById('center');
     var myChart = echarts.init(chartDom);
     var option;
+    var new_data;
+
+    function getData() {
+        $.ajax({
+            url: "/getdata",
+            type: "get",
+            datatype:"json",
+            success: function (data) {
+                //new_data = data
+
+            },
+            fail:function (error) {
+                console.log(error)
+            }
+        })
+    }
 
     option = {
         xAxis: {
@@ -38,7 +67,8 @@
         },
         series: [
             {
-                data: [150, 230, 224, 218, 135, 147, 260],
+                //data: [150, 230, 224, 218, 135, 147, 260],
+                data: new_data,
                 type: 'line'
             }
         ]
